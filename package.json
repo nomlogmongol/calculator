@@ -1,0 +1,20 @@
+{
+  "name": "mongol-grammar",
+  "version": "1.0.0",
+  "description": "Mongolian (Cyrillic) grammar and spelling checker that runs in the browser and in Node.js",
+  "type": "module",
+  "main": "grammar/src/index.js",
+  "bin": {
+    "mongol-grammar": "grammar/cli.js"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "node --test",
+    "check": "node grammar/cli.js",
+    "check:bundle": "node scripts/build.js --check"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "private": true
+}

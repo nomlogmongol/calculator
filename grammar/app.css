@@ -1,0 +1,287 @@
+/* Highlight colors per severity, for light and dark themes. */
+:root {
+  --hl-error: #c62828;
+  --hl-error-bg: rgba(198, 40, 40, 0.16);
+  --hl-warning: #b45309;
+  --hl-warning-bg: rgba(217, 119, 6, 0.18);
+  --hl-suggestion: #1d4ed8;
+  --hl-suggestion-bg: rgba(37, 99, 235, 0.13);
+  --hl-active: rgba(17, 24, 39, 0.55);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --hl-error: #f87171;
+    --hl-error-bg: rgba(248, 113, 113, 0.22);
+    --hl-warning: #fbbf24;
+    --hl-warning-bg: rgba(251, 191, 36, 0.2);
+    --hl-suggestion: #60a5fa;
+    --hl-suggestion-bg: rgba(96, 165, 250, 0.2);
+    --hl-active: rgba(243, 244, 246, 0.6);
+  }
+}
+:root[data-theme="dark"] {
+  --hl-error: #f87171;
+  --hl-error-bg: rgba(248, 113, 113, 0.22);
+  --hl-warning: #fbbf24;
+  --hl-warning-bg: rgba(251, 191, 36, 0.2);
+  --hl-suggestion: #60a5fa;
+  --hl-suggestion-bg: rgba(96, 165, 250, 0.2);
+  --hl-active: rgba(243, 244, 246, 0.6);
+}
+
+body {
+  background: var(--pico-background-color);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.lead {
+  color: var(--pico-muted-color);
+  max-width: 60rem;
+}
+
+.small-btn {
+  padding: 0.25rem 0.75rem;
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 1.5rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.toolbar button {
+  margin: 0;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.95rem;
+}
+
+/* The textarea sits on a backdrop that repeats its text with highlights.
+   Both must share every metric that affects line wrapping. */
+.editor {
+  position: relative;
+}
+#input,
+.editor .backdrop {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--pico-border-radius);
+  font-family: var(--pico-font-family);
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: normal;
+  word-spacing: normal;
+  tab-size: 4;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-align: start;
+}
+#input {
+  position: relative;
+  z-index: 1;
+  display: block;
+  min-height: 15rem;
+  overflow: hidden;
+  resize: none;
+  background: transparent;
+  border-color: var(--pico-form-element-border-color);
+  color: var(--pico-color);
+  caret-color: var(--pico-color);
+  box-shadow: none;
+}
+#input:focus {
+  border-color: var(--pico-form-element-focus-color, var(--pico-primary-border));
+  box-shadow: 0 0 0 var(--pico-outline-width, 2px) var(--pico-form-element-focus-color, var(--pico-primary-focus));
+}
+.editor .backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  color: transparent;
+  background: var(--pico-form-element-background-color);
+  pointer-events: none;
+}
+#highlights mark {
+  margin: 0;
+  padding: 0;
+  border-radius: 2px;
+  color: transparent;
+  background: var(--hl-error-bg);
+  text-decoration: underline wavy var(--hl-error);
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1.5px;
+}
+#highlights mark.warning {
+  background: var(--hl-warning-bg);
+  text-decoration-color: var(--hl-warning);
+}
+#highlights mark.suggestion {
+  background: var(--hl-suggestion-bg);
+  text-decoration: underline dotted var(--hl-suggestion);
+}
+#highlights mark.active {
+  outline: 2px solid var(--hl-active);
+  outline-offset: 1px;
+}
+
+.status {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--pico-muted-color);
+}
+
+.issues-pane {
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+@media (max-width: 900px) {
+  .issues-pane {
+    position: static;
+    max-height: none;
+  }
+}
+.issues-head h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0;
+  border: 0;
+}
+.filters label,
+#category-filters label {
+  font-size: 0.9rem;
+  margin: 0;
+}
+#category-filters {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.issues {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.issues li {
+  list-style: none;
+}
+.issue {
+  --sev: var(--hl-error);
+  border: 1px solid var(--pico-muted-border-color);
+  border-left: 4px solid var(--sev);
+  border-radius: var(--pico-border-radius);
+  padding: 0.6rem 0.8rem;
+  background: var(--pico-card-background-color);
+  cursor: pointer;
+}
+.issue.warning {
+  --sev: var(--hl-warning);
+}
+.issue.suggestion {
+  --sev: var(--hl-suggestion);
+}
+.issue.active {
+  box-shadow: 0 0 0 2px var(--sev);
+}
+.issue-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.6rem;
+  align-items: baseline;
+  font-size: 0.8rem;
+  color: var(--pico-muted-color);
+}
+.badge {
+  color: var(--sev);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.issue-msg {
+  margin: 0.35rem 0 0.5rem;
+  font-size: 0.95rem;
+}
+.fixes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.95rem;
+}
+.fixes del {
+  color: var(--pico-del-color, var(--hl-error));
+}
+.fixes button {
+  margin: 0;
+  width: auto;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.95rem;
+}
+.fixes .ignore {
+  margin-left: auto;
+  font-size: 0.8rem;
+  padding: 0.15rem 0.5rem;
+}
+.empty {
+  color: var(--pico-muted-color);
+}
+
+.rules-table td {
+  vertical-align: top;
+  font-size: 0.9rem;
+}
+.rules-table .rule-title {
+  font-weight: 600;
+}
+.rules-table .rule-meta {
+  color: var(--pico-muted-color);
+  font-size: 0.8rem;
+}
+.rules-table .example {
+  white-space: nowrap;
+}
+
+footer {
+  padding-bottom: 2rem;
+  color: var(--pico-muted-color);
+}
