@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="mn">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Монгол хэлний (кирилл) зөв бичих дүрэм, эгшиг зохицол, цэг тэмдгийн алдааг хөтөч дээрээ шалгах хэрэгсэл.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+    <link rel="stylesheet" href="app.css">
+    <title>Дүрэм шалгагч</title>
+  </head>
+  <body>
+    <header class="container">
+      <nav>
+        <ul>
+          <li><strong data-i18n="appName">Монгол хэлний дүрэм шалгагч</strong></li>
+        </ul>
+        <ul>
+          <li><a href="../" data-i18n="home">Нүүр</a></li>
+          <li><button type="button" id="lang" class="outline secondary small-btn" aria-label="Switch language">EN</button></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <p class="lead" data-i18n="intro">Текстээ бичих эсвэл буулгахад эгшиг зохицол, нөхцөл залгавар, асуух сул үг, цэг тэмдэг, холилдсон үсгийн алдааг шууд олж, засах санал гаргана.</p>
+
+      <div class="workspace">
+        <section class="editor-pane" aria-labelledby="editor-label">
+          <div class="toolbar" role="toolbar">
+            <label id="editor-label" for="input" class="visually-hidden" data-i18n="editorLabel">Шалгах текст</label>
+            <button type="button" id="fix-all" data-i18n="fixAll">Бүгдийг засах</button>
+            <button type="button" id="sample" class="secondary outline" data-i18n="sample">Жишээ</button>
+            <button type="button" id="copy" class="secondary outline" data-i18n="copy">Хуулах</button>
+            <button type="button" id="clear" class="secondary outline" data-i18n="clear">Арилгах</button>
+          </div>
+          <div class="editor">
+            <div class="backdrop" aria-hidden="true"><div id="highlights"></div></div>
+            <textarea id="input" spellcheck="false" autocomplete="off" autocapitalize="sentences" lang="mn" rows="10" data-i18n-placeholder="placeholder" placeholder="Энд текстээ бичнэ үү…"></textarea>
+          </div>
+          <p class="status" id="status" aria-live="polite"></p>
+        </section>
+
+        <aside class="issues-pane" aria-labelledby="issues-title">
+          <div class="issues-head">
+            <h2 id="issues-title" data-i18n="issuesTitle">Илэрсэн зүйлс</h2>
+            <fieldset class="filters" id="severity-filters">
+              <legend class="visually-hidden" data-i18n="filterLabel">Шүүлтүүр</legend>
+            </fieldset>
+          </div>
+          <ol id="issues" class="issues"></ol>
+          <p id="empty" class="empty" hidden></p>
+        </aside>
+      </div>
+
+      <details id="settings">
+        <summary data-i18n="settings">Тохиргоо</summary>
+        <p data-i18n="settingsHelp">Шалгах ангиллаа сонгоно уу. Сонголт таны хөтөч дээр хадгалагдана.</p>
+        <fieldset id="category-filters"></fieldset>
+      </details>
+
+      <details>
+        <summary data-i18n="rulesTitle">Шалгадаг дүрмүүд</summary>
+        <div class="overflow-auto">
+          <table class="striped rules-table">
+            <thead>
+              <tr>
+                <th data-i18n="colRule">Дүрэм</th>
+                <th data-i18n="colExample">Жишээ</th>
+              </tr>
+            </thead>
+            <tbody id="rules"></tbody>
+          </table>
+        </div>
+      </details>
+
+      <details>
+        <summary data-i18n="aboutTitle">Тухай</summary>
+        <div data-i18n-html="about"></div>
+      </details>
+    </main>
+
+    <footer class="container">
+      <small data-i18n="footer">Текст таны төхөөрөмжөөс гадагш гарахгүй: бүх шалгалт хөтөч дотор хийгдэнэ.</small>
+    </footer>
+
+    <script src="mongol-grammar.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
